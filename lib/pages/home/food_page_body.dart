@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
 import 'package:fooddeliveryapp/models/products_model.dart';
+import 'package:fooddeliveryapp/utils/app_constants.dart';
 import 'package:fooddeliveryapp/utils/colors.dart';
 import 'package:fooddeliveryapp/utils/dimensions.dart';
 import 'package:fooddeliveryapp/widgets/app_column.dart';
@@ -201,7 +202,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               color:index.isEven?const Color(0xFF69c5df):Color(0xFF9294cc),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image:AssetImage("asset/image/food0.png") )
+               image:NetworkImage(AppConstants.BASE_URL+"/uploads/"+popularProduct.img!) ),
+            //  image:AssetImage("asset/image/food0.png") ),
             ),
           ),
            Align(
@@ -234,7 +236,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   //color: Colors.redAccent,
                  // width: 320,
                   padding: EdgeInsets.only(top: Dimensions.height15,left: Dimensions.width15,right: Dimensions.width15),
-                  child:AppColumn(text: "Chinese Side",)
+                  child:AppColumn(text: popularProduct.name!,)
+                  //AppColumn(text: "Chinese Side",)
                  ),
                   ),
 
