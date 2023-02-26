@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
+import 'package:fooddeliveryapp/pages/home/main_food_page.dart';
+import 'package:fooddeliveryapp/utils/app_constants.dart';
 import 'package:fooddeliveryapp/utils/colors.dart';
 import 'package:fooddeliveryapp/utils/dimensions.dart';
 import 'package:fooddeliveryapp/widgets/app_column.dart';
@@ -7,14 +10,20 @@ import 'package:fooddeliveryapp/widgets/big_text.dart';
 import 'package:fooddeliveryapp/widgets/expandaple_text_widget.dart';
 import 'package:fooddeliveryapp/widgets/icon_and_text_widget.dart';
 import 'package:fooddeliveryapp/widgets/small_text.dart';
+import 'package:get/get.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({super.key});
+  int pageId;
+   PopularFoodDetail({Key?key,required this.pageId}):super(key:key);
 
   @override
   Widget build(BuildContext context) {
+    var product=Get.find<PopularProductController>().popularProductList[pageId];
      print("Current height is:"+MediaQuery.of(context).size.height.toString());
      print("Current width is:"+MediaQuery.of(context).size.width.toString());
+     print('page is id=='+pageId.toString());
+     print('product name is'+product.name.toString());
+     
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -30,8 +39,9 @@ class PopularFoodDetail extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(
-                    'asset/image/food0.png'
+                  image: NetworkImage(
+                    AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!
+                    //'asset/image/food0.png'
                   ))
               ),
 
@@ -44,7 +54,11 @@ class PopularFoodDetail extends StatelessWidget {
         child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppIcon(icon: Icons.arrow_back_ios),
+            GestureDetector(
+              onTap: (){
+                Get.to(MainFoodPage());
+              },
+              child: AppIcon(icon: Icons.arrow_back_ios)),
             AppIcon(icon: Icons.shopping_cart_outlined)
           ],
         ) ),
@@ -66,21 +80,13 @@ class PopularFoodDetail extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppColumn(text: "Biriani",),
+                AppColumn(text: product.name!),
                 SizedBox(height:Dimensions.height20),
                 BigText(text: "Introduce"),
                 SizedBox(height:Dimensions.height10),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: ExpandableTextWidget(text: "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"
-                                  "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"
-                                  "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"),
+                    child: ExpandableTextWidget(text: product.description),
                   ),
                 ),
               ],
@@ -95,7 +101,7 @@ class PopularFoodDetail extends StatelessWidget {
        height: Dimensions.bottomHeightBar,
         padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
         decoration: BoxDecoration(
-         // color: Colors.amber,
+        // color: Colors.amber,
           color: AppColors.buttonBackgroundColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(Dimensions.radius20*2),
@@ -123,7 +129,7 @@ class PopularFoodDetail extends StatelessWidget {
             ),
             Container(
                 padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
-              child: BigText(text: "\$10 | Add to cart",color: Colors.white,),
+              child: BigText(text: "\$${product.price} | Add to cart",color: Colors.white,),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: AppColors.mainColor,
