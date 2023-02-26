@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
+import 'package:fooddeliveryapp/controllers/recommended_product_controller.dart';
 import 'package:fooddeliveryapp/models/products_model.dart';
 import 'package:fooddeliveryapp/utils/app_constants.dart';
 import 'package:fooddeliveryapp/utils/colors.dart';
@@ -44,7 +45,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       children: [
         //Slider Widget
       GetBuilder<PopularProductController>(builder: (popularProducts){
-        return   Container(
+        return  popularProducts.isLoaded? Container(
       //  color: Colors.redAccent,
       height: Dimensions.PageView,
       child: PageView.builder(
@@ -54,7 +55,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
            return _buildPageItem(position,popularProducts.popularProductList[position]);
       }
       ),
-      );  
+      ): CircularProgressIndicator(
+        color: AppColors.mainColor,
+      );
       }),     
        // dots
     GetBuilder<PopularProductController>(builder: (popularProducts){
@@ -77,7 +80,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          BigText(text: "Popular"),
+          BigText(text: "Recommended"),
           SizedBox(width: Dimensions.width10),
           Container(
             margin: const EdgeInsets.only(bottom: 3),
@@ -93,11 +96,12 @@ class _FoodPageBodyState extends State<FoodPageBody> {
      ),
      //list of food and images
     
-       ListView.builder(
+     GetBuilder<RecommededProductController>(builder: (recommendedProduct){
+     return recommendedProduct.isLoaded?  ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true, 
         //it is used when physics is alwaysscrollablescrollphysics()
-      itemCount: 10,
+      itemCount: recommendedProduct.recommededProductList.length,
       itemBuilder: (context, index) {
          return Container(
           margin: EdgeInsets.only(left:Dimensions.width20 ,right:Dimensions.width20,bottom: Dimensions.height10),
@@ -114,7 +118,11 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   color: Colors.white38,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage("asset/image/food0.png"))
+                    // image:NetworkImage(
+                    //   AppConstants.BASE_URL+"/uploads/"+recommendedProduct.recommededProductList[index].img!
+                    // )
+                   image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOAD_URL+recommendedProduct.recommededProductList[index].img!)
+                   )
                 ),
               ),
             //text container
@@ -164,7 +172,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             ],
           ),
          );
-     }),
+     }):CircularProgressIndicator(color: AppColors.mainColor,);
+     })
+     
      
       ],
     );
@@ -202,7 +212,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               color:index.isEven?const Color(0xFF69c5df):Color(0xFF9294cc),
               image: DecorationImage(
                 fit: BoxFit.cover,
-               image:NetworkImage(AppConstants.BASE_URL+"/uploads/"+popularProduct.img!) ),
+               image:NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOAD_URL+popularProduct.img!) ),
             //  image:AssetImage("asset/image/food0.png") ),
             ),
           ),
