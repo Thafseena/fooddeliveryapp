@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fooddeliveryapp/controllers/recommended_product_controller.dart';
 import 'package:fooddeliveryapp/routes/route_helper.dart';
+import 'package:fooddeliveryapp/utils/app_constants.dart';
 import 'package:fooddeliveryapp/utils/colors.dart';
 import 'package:fooddeliveryapp/utils/dimensions.dart';
 import 'package:fooddeliveryapp/widgets/app_icon.dart';
@@ -8,10 +10,12 @@ import 'package:fooddeliveryapp/widgets/expandaple_text_widget.dart';
 import 'package:get/get.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({super.key});
+ final int pageId1;
+ const  RecommendedFoodDetail({Key? key,required this.pageId1}):super(key:key);
 
   @override
   Widget build(BuildContext context) {
+    var product1=Get.find<RecommededProductController>().recommededProductList[pageId1];
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -41,7 +45,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimensions.radius20),
                 topRight: Radius.circular(Dimensions.radius20),)
               ),
-              child: Center(child: BigText(size: Dimensions.font26,text: "Chinese Side")),
+              child: Center(child: BigText(size: Dimensions.font26,text: product1.name!)),
               width: double.maxFinite,
             ), preferredSize: Size.fromHeight(20)),
             pinned: true,
@@ -49,7 +53,9 @@ class RecommendedFoodDetail extends StatelessWidget {
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
               //title: Text("sample"),
-             background: Image.asset('asset/image/food0.png',
+             background: Image.network(
+              AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product1.img!,
+              //'asset/image/food0.png',
               //width: double.maxFinite,
               fit: BoxFit.cover,
               ),
@@ -60,24 +66,7 @@ class RecommendedFoodDetail extends StatelessWidget {
           child:Column(
             children: [
               Container(
-                child: ExpandableTextWidget(text:"Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"
-                                  "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"
-                                 "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"
-                                  "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"
-                                 "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow"
-                                  "Chicken marinated in a spiced youghurt is placed in a large pot,then layered "
-                                 " with fried onions (cheeky easy sub below!), fresh coriander/cilantro,thn par boiled lightly spiced rice."
-                                 "The crowning glory is to finish it off with a drizzle of saffron infused water to give it the signature patches of bright yellow",
+                child: ExpandableTextWidget(text:product1.description!
                                  ),
                                  margin: EdgeInsets.only(left: Dimensions.width20,right: Dimensions.width20),
               )
@@ -104,7 +93,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                 iconColor:Colors.white,
                 backgroundColor: AppColors.mainColor,
                 icon: Icons.remove),
-                BigText(text: "\$12.88 "+" X "+" 0 ",color: AppColors.mainBlackColor,size: Dimensions.font26,),
+                BigText(text: "\$${product1.price!}  X  0 ",color: AppColors.mainBlackColor,size: Dimensions.font26,),
                 AppIcon(
                 iconSize: Dimensions.iconSize24,
                 iconColor:Colors.white,

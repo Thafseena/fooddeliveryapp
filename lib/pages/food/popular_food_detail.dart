@@ -19,10 +19,12 @@ class PopularFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product=Get.find<PopularProductController>().popularProductList[pageId];
+    Get.find<PopularProductController>().initProduct();
      print("Current height is:"+MediaQuery.of(context).size.height.toString());
      print("Current width is:"+MediaQuery.of(context).size.width.toString());
      print('page is id=='+pageId.toString());
      print('product name is'+product.name.toString());
+    print('product price'+product.price.toString());
      
     return Scaffold(
       backgroundColor: Colors.white,
@@ -96,7 +98,8 @@ class PopularFoodDetail extends StatelessWidget {
         
         ],
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar:GetBuilder<PopularProductController >(builder: (popularProduct){
+        return  Container(
        // height: 110,
        height: Dimensions.bottomHeightBar,
         padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
@@ -119,17 +122,26 @@ class PopularFoodDetail extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.remove,color: AppColors.signColor),
+                  GestureDetector(
+                    onTap: () {
+                      popularProduct.setQuantity(false);
+                    },
+                    child: Icon(Icons.remove,color: AppColors.signColor)),
                   SizedBox(width: Dimensions.width10/2),
-                  BigText(text: "0"),
+                  BigText(text: popularProduct.quantity.toString()),
                    SizedBox(width: Dimensions.width10/2),
-                  Icon(Icons.add,color: AppColors.signColor),
+                  GestureDetector(
+                    onTap: () {
+                      popularProduct.setQuantity(true);
+                    },
+                    child: Icon(Icons.add,color: AppColors.signColor)),
                 ],
               ),
             ),
             Container(
                 padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
               child: BigText(text: "\$${product.price} | Add to cart",color: Colors.white,),
+           
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: AppColors.mainColor,
@@ -137,7 +149,8 @@ class PopularFoodDetail extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      );
+      }),
     );
   }
 }
