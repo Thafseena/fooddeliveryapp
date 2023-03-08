@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddeliveryapp/controllers/cart_controller.dart';
 import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
 import 'package:fooddeliveryapp/pages/home/main_food_page.dart';
 import 'package:fooddeliveryapp/utils/app_constants.dart';
@@ -19,7 +20,7 @@ class PopularFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product=Get.find<PopularProductController>().popularProductList[pageId];
-    Get.find<PopularProductController>().initProduct();
+    Get.find<PopularProductController>().initProduct(product,Get.find<CartController>());
      print("Current height is:"+MediaQuery.of(context).size.height.toString());
      print("Current width is:"+MediaQuery.of(context).size.width.toString());
      print('page is id=='+pageId.toString());
@@ -140,7 +141,13 @@ class PopularFoodDetail extends StatelessWidget {
             ),
             Container(
                 padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
-              child: BigText(text: "\$${product.price} | Add to cart",color: Colors.white,),
+              child: GestureDetector(
+                onTap: (){
+                  popularProduct.addItem(product);
+                },
+                child: BigText(
+                  text: "\$${product.price} | Add to cart",
+                  color: Colors.white,)),
            
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),

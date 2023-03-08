@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooddeliveryapp/controllers/cart_controller.dart';
 import 'package:fooddeliveryapp/data/repository/popular_product_repo.dart';
 import 'package:fooddeliveryapp/models/products_model.dart';
 import 'package:fooddeliveryapp/utils/colors.dart';
@@ -10,6 +11,7 @@ class PopularProductController extends GetxController{
   PopularProductController({required this.popularProductRepo});
   List<dynamic> _popularProductList=[];
   List<dynamic> get popularProductList=>_popularProductList;
+  late  CartController _cart;
 
   bool _isLoaded=false;
   bool get isLoaded=>_isLoaded;
@@ -61,15 +63,34 @@ class PopularProductController extends GetxController{
     }
    }
 
-   void initProduct(){
+   void initProduct(ProductModel product,CartController cart){
     _quantity=0;
     _inCartItems=0;
+    _cart=cart;
+    var exist=false;
+    exist=_cart.existInCart(product);
+    print('Exist or not'+exist.toString());
+    if(exist){
+      _inCartItems=_cart.getQuantity(product);
+    }
     //if exisist
-    
+    print('The quantity in the cart is==='+_inCartItems.toString());
     //get from storage _inCartItems
    }
 
    void addItem(ProductModel product){
-
+    if(quantity>0){
+      _cart.addItem(product, _quantity);
+      _quantity=0; 
+      _cart.items.forEach((key, value) { 
+        print('The id is====='+value.id.toString()+'The quantity is:'+value.quantity.toString());
+      });
+    }else{
+      Get.snackbar("Item Count", "You should at least add an item in the cart!",
+      backgroundColor: AppColors.mainColor,
+      colorText: Colors.white,
+      );
+    }
+  
    }
 }
