@@ -29,10 +29,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: CartPage(),
-      /* home: MainFoodPage(),
+      //home: CartPage(),
+      home: MainFoodPage(),
       initialRoute: RouteHelper.initial,
-      getPages: RouteHelper.routes, */
+      getPages: RouteHelper.routes,
     );
   }
 }

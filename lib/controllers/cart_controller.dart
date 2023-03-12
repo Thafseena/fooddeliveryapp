@@ -27,6 +27,7 @@ class CartController extends GetxController{
       isExit:true,
       quantity:value.quantity!+quantity,
       time:DateTime.now().toString(),
+      product: product,
     ); 
    } );
    if(totalQuantity<=0){
@@ -49,6 +50,7 @@ class CartController extends GetxController{
       isExit:true,
       quantity:quantity,
       time:DateTime.now().toString(),
+      product: product,
     );});
     }else{
       Get.snackbar("Item Count", "You should at least add an item in the cart!",
@@ -59,7 +61,7 @@ class CartController extends GetxController{
  
 
   }
-    
+    update();
 
   }
   
@@ -91,4 +93,19 @@ _items.forEach((key, value) {
 });
   return totalQuantity;
 }
+
+List<CartModel> get getItems{
+  return _items.entries.map((e) {
+   return e.value;
+  }).toList();
+}
+
+ int get totalAmount{
+  var total=0;
+  _items.forEach((key, value) {
+    total=value.price!*value.quantity!;
+  });
+  
+  return total;
+ }
 }
