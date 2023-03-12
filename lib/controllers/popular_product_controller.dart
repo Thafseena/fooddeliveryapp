@@ -39,20 +39,26 @@ class PopularProductController extends GetxController{
     if(isIncrement){
       print('increment by 1'+_quantity.toString());
       _quantity= checkQuantity(_quantity+1);
+      print("number of items"+_quantity.toString());
     }else{
     _quantity=checkQuantity(_quantity-1);
+    print("decrement"+_quantity.toString());
     }
     update();
    }
 
   int checkQuantity(int quantity){
-    if(quantity<0){
+    if((_inCartItems+quantity)<0){
       Get.snackbar("Item Count", "You can't reduce anymore...!",
       backgroundColor: AppColors.mainColor,
       colorText: Colors.white,
       );
+      if(_inCartItems>0){
+        _quantity=-_inCartItems;
+        return _quantity;
+      }
       return 0;
-    }else if(quantity>20){
+    }else if((_inCartItems+quantity)>20){
       Get.snackbar("Item Count", "You can't add anymore...!",
       backgroundColor: AppColors.mainColor,
       colorText: Colors.white,
@@ -79,18 +85,24 @@ class PopularProductController extends GetxController{
    }
 
    void addItem(ProductModel product){
-    if(quantity>0){
+   // if(quantity>0){
       _cart.addItem(product, _quantity);
       _quantity=0; 
+      _inCartItems=_cart.getQuantity(product);
       _cart.items.forEach((key, value) { 
         print('The id is====='+value.id.toString()+'The quantity is:'+value.quantity.toString());
       });
-    }else{
+   /*  }else{
       Get.snackbar("Item Count", "You should at least add an item in the cart!",
       backgroundColor: AppColors.mainColor,
       colorText: Colors.white,
       );
-    }
-  
+    } */
+  update();
    }
-}
+
+   int get totalItems{
+   return  _cart.totalItems;
+   }
+
+ }

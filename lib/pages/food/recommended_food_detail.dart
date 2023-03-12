@@ -1,4 +1,8 @@
+import 'dart:math';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:fooddeliveryapp/controllers/cart_controller.dart';
+import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
 import 'package:fooddeliveryapp/controllers/recommended_product_controller.dart';
 import 'package:fooddeliveryapp/routes/route_helper.dart';
 import 'package:fooddeliveryapp/utils/app_constants.dart';
@@ -16,6 +20,7 @@ class RecommendedFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product1=Get.find<RecommededProductController>().recommededProductList[pageId1];
+     Get.find<PopularProductController>().initProduct(product1,Get.find<CartController>());
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -32,8 +37,28 @@ class RecommendedFoodDetail extends StatelessWidget {
                   },
                   child: AppIcon(icon: Icons.clear)
                   ),
-                AppIcon(icon: Icons.shopping_cart_outlined),
-               // Icon(Icons.shopping_cart_outlined)
+                //AppIcon(icon: Icons.shopping_cart_outlined),
+                     GetBuilder<PopularProductController>(builder: (controller){
+          return Stack(
+            children: [
+                  AppIcon(icon: Icons.shopping_cart_outlined),
+                  Get.find<PopularProductController>().totalItems>=1?
+                    Positioned(
+                      right: 0,top: 0,
+                      child: 
+                      AppIcon(icon: Icons.circle,size: 20,iconColor: Colors.transparent,backgroundColor: AppColors.mainColor,)):
+                    Container(),
+                    Get.find<PopularProductController>().totalItems>=1?
+                    Positioned(
+                      right: 3,top: 3,
+                      child: BigText(text: Get.find<PopularProductController>().totalItems.toString(),
+                      size: 12,
+                      color: Colors.white,)):
+                    Container()
+            ],
+          );
+        })
+               // //Icon(Icons.shopping_cart_outlined)
               ],
             ),
             //floating: false,
@@ -75,7 +100,8 @@ class RecommendedFoodDetail extends StatelessWidget {
           )
          ],
       ),
-      bottomNavigationBar: Column(
+      bottomNavigationBar: GetBuilder<PopularProductController>(builder: (controller){
+        return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
@@ -88,17 +114,29 @@ class RecommendedFoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(
-                iconSize: Dimensions.iconSize24,
-                iconColor:Colors.white,
-                backgroundColor: AppColors.mainColor,
-                icon: Icons.remove),
-                BigText(text: "\$${product1.price!}  X  0 ",color: AppColors.mainBlackColor,size: Dimensions.font26,),
-                AppIcon(
-                iconSize: Dimensions.iconSize24,
-                iconColor:Colors.white,
-                backgroundColor: AppColors.mainColor,
-                icon: Icons.add)
+             GestureDetector(
+                  onTap: (){
+                    controller.setQuantity(false);
+                    print("I am tapped");
+                  },
+                  child: AppIcon(
+                  iconSize: Dimensions.iconSize24,
+                  iconColor:Colors.white,
+                  backgroundColor: AppColors.mainColor,
+                  icon: Icons.remove),
+                ),
+                BigText(text: "\$${product1.price!}  X  ${controller.inCartItems} ",color: AppColors.mainBlackColor,size: Dimensions.font26,),
+                GestureDetector(
+                  onTap: (){
+                    controller.setQuantity(true);
+                    print("I am tapped");
+                  },
+                  child: AppIcon(
+                  iconSize: Dimensions.iconSize24,
+                  iconColor:Colors.white,
+                  backgroundColor: AppColors.mainColor,
+                  icon: Icons.add),
+                ),
               ],
             ),
           ),
@@ -128,19 +166,26 @@ class RecommendedFoodDetail extends StatelessWidget {
                 color: AppColors.mainColor,
               )
             ),
-            Container(
-                padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
-              child: BigText(text: "\$10 | Add to cart",color: Colors.white,),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius20),
-                color: AppColors.mainColor,
+            GestureDetector(
+              onTap: (){
+                controller.addItem(product1);
+                print("clicked add button");
+              },
+              child: Container(
+                  padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
+                child: BigText(text: "${product1.price!} | Add to cart",color: Colors.white,),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  color: AppColors.mainColor,
+                ),
               ),
             ),
           ],
         ),
       ),
         ],
-      ),
+      );
+      })
     );
   }
 }

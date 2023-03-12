@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:fooddeliveryapp/data/repository/cart_repo.dart';
 import 'package:fooddeliveryapp/models/cart_model.dart';
 import 'package:fooddeliveryapp/models/products_model.dart';
+import 'package:fooddeliveryapp/utils/colors.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController{
@@ -12,9 +14,11 @@ class CartController extends GetxController{
   Map<int, CartModel> get items=>_items;
 
   void addItem(ProductModel product,int quantity){
+    var totalQuantity=0;
   //print('length of the item is:'+_items.length.toString());
   if(_items.containsKey(product.id!)){
    _items.update(product.id!, (value) {
+    totalQuantity=value.quantity!+quantity;
     return CartModel(
       id:value.id,
       name:value.name,
@@ -25,9 +29,12 @@ class CartController extends GetxController{
       time:DateTime.now().toString(),
     ); 
    } );
+   if(totalQuantity<=0){
+    _items.remove(product.id);
+   }
   }else{
- 
-     _items.putIfAbsent(product.id!, () {
+    if(quantity>0){
+           _items.putIfAbsent(product.id!, () {
       
       // print('adding item to the cart id:'+product.id.toString()+"\nQuantity"+quantity.toString());
 
@@ -43,6 +50,14 @@ class CartController extends GetxController{
       quantity:quantity,
       time:DateTime.now().toString(),
     );});
+    }else{
+      Get.snackbar("Item Count", "You should at least add an item in the cart!",
+      backgroundColor: AppColors.mainColor,
+      colorText: Colors.white,
+      );
+    }
+ 
+
   }
     
 
@@ -69,5 +84,11 @@ return quantity;
 
 }
 
-
+int get totalItems{
+  var totalQuantity=0;
+_items.forEach((key, value) { 
+  totalQuantity+=value.quantity!;
+});
+  return totalQuantity;
+}
 }
