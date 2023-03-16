@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
 import 'package:fooddeliveryapp/controllers/recommended_product_controller.dart';
 import 'package:fooddeliveryapp/routes/route_helper.dart';
+import 'package:fooddeliveryapp/utils/dimensions.dart';
 import 'package:get/get.dart';
 
 
@@ -50,8 +51,14 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ScaleTransition(scale: animation,
-            child: Center(child: Image.asset("asset/image/logo part 1.png",width: 250,))),
-          Center(child: Image.asset("asset/image/logo part 2.png",width: 250,)),
+            child: Center(child: Image.asset("asset/image/logo part 1.png",
+            //width: 250,
+            width: Dimensions.splashImg,
+            ))),
+          Center(child: Image.asset("asset/image/logo part 2.png",
+         // width: 250,
+         width: Dimensions.splashImg,
+          )),
         ],
       ),
     );
