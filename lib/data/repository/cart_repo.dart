@@ -9,14 +9,14 @@ class CartRepo{
 final SharedPreferences sharedPreferences;
 CartRepo({required this.sharedPreferences});
 
- List<String> cart=[];
+ List<String> cart=[];    
  List<String> cartHistory=[];
  void addToCartList(List<CartModel> cartList){
-   //sharedPreferences.remove(AppConstants.CART_LIST);
-  //sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
+  //  sharedPreferences.remove(AppConstants.CART_LIST);
+  // sharedPreferences.remove(AppConstants.CART_HISTORY_LIST);
   var time=DateTime.now().toString();
-  cart=[];
-  /*
+  cart=[];     
+  /*  
   converts objects to string because sharedPreferences only accepts strings
   */
  /*  cartList.forEach((element) {
@@ -28,7 +28,7 @@ CartRepo({required this.sharedPreferences});
   return  cart.add(jsonEncode(element));
     });
   sharedPreferences.setStringList(AppConstants.CART_LIST, cart);
-  //print('SharedPreferences for cartList'+sharedPreferences.getStringList("Cart-list").toString());
+  print('SharedPreferences for cartList'+sharedPreferences.getStringList(AppConstants.CART_LIST).toString());
  //  getCartList();
  }
    
@@ -48,17 +48,23 @@ CartRepo({required this.sharedPreferences});
     carts.forEach((element)=> cartList.add(CartModel.fromJson(jsonDecode(element))));
 
     return cartList;
-
+  
    }
    
    List<CartModel> getCartHistoryList(){
     if(sharedPreferences.containsKey(AppConstants.CART_HISTORY_LIST)){
       cartHistory=[];
       cartHistory=sharedPreferences.getStringList(AppConstants.CART_HISTORY_LIST)!;
-
+    print('SharedPreferences for CART_HISTORY List'+sharedPreferences.getStringList(AppConstants.CART_HISTORY_LIST).toString());
     }
     List<CartModel> cartListHistory=[];
     cartHistory.forEach((element)=>cartListHistory.add(CartModel.fromJson(jsonDecode(element))));
+    print("Carthistory List length =="+cartListHistory.length.toString());
+    print("Carthistory List length =="+cartListHistory.length.toString());
+
+    // for(int m=0;m<=cartListHistory.length;m++){
+    // print("cart image -----------"+cartListHistory[m].toString());
+    // }
     return cartListHistory;
    }
 
@@ -69,14 +75,17 @@ CartRepo({required this.sharedPreferences});
     }
      for(int i=0;i<cart.length;i++){
       print("history list"+cart[i]);
+      //  print("history list"+cart[i]);
       cartHistory.add(cart[i]);
+      //print("The image for order is:"+getCartHistoryList()[i].img.toString());
      }
      removeCart();
      sharedPreferences.setStringList(AppConstants.CART_HISTORY_LIST, cartHistory);
     print("The length of history list is:"+getCartHistoryList().length.toString());
     for(int j=0;j<getCartHistoryList().length;j++){
-      print("The time for order is:"+getCartHistoryList()[j].time.toString());
+      print("The image for order is:"+getCartHistoryList()[j].img.toString());
     }
+   // removeCart();
    }
 
    void removeCart(){

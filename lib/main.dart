@@ -11,6 +11,7 @@ import 'package:fooddeliveryapp/pages/home/main_food_page.dart';
 import 'package:fooddeliveryapp/pages/food/popular_food_detail.dart';
 import 'package:fooddeliveryapp/pages/splash/splash_page.dart';
 import 'package:fooddeliveryapp/routes/route_helper.dart';
+import 'package:fooddeliveryapp/test/carthis.dart';
 import 'package:get/get.dart';
 import 'helper/depentencies.dart' as dep;
 Future<void> main()async {
@@ -32,7 +33,9 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             initialRoute: RouteHelper.getSplashPage(),
+           
             getPages: RouteHelper.routes,
+             //home:CartHis() ,
           );
         });
     });

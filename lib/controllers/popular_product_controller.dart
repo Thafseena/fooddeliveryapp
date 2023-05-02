@@ -25,10 +25,10 @@ class PopularProductController extends GetxController{
    Response response=await popularProductRepo.getPopularProductList();
    if(response.statusCode==200){
     print("statusCode"+response.statusCode.toString());
-    print("got products");
+   // print("got products");
     _popularProductList=[];
     _popularProductList.addAll(Product.fromJson(response.body).products); 
-    print("_popularProductList"+response.body.toString());
+   // print("_popularProductList"+response.body.toString());
     _isLoaded=true;
     update();
    }else{
@@ -76,12 +76,12 @@ class PopularProductController extends GetxController{
     _cart=cart;
     var exist=false;
     exist=_cart.existInCart(product);
-    print('Exist or not'+exist.toString());
+    //print('Exist or not'+exist.toString());
     if(exist){
       _inCartItems=_cart.getQuantity(product);
     }
     //if exisist
-    print('The quantity in the cart is==='+_inCartItems.toString());
+   // print('The quantity in the cart is==='+_inCartItems.toString());
     //get from storage _inCartItems
    }
 

@@ -66,9 +66,9 @@ class ProductModel {
     return {
      "id"  : this.id,
     "name" : this.name,
-    "description" : this.description,
+   // "description" : this.description,
     "price" : this.price,
-    "stars" : this.stars,
+   //  "stars" : this.stars,
     "img" : this.img,
     "location" :this.location,
     "created_at" : this.createdAt,
