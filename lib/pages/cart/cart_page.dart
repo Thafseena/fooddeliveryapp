@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:fooddeliveryapp/base/no_data_page.dart';
 import 'package:fooddeliveryapp/controllers/cart_controller.dart';
 import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
 import 'package:fooddeliveryapp/controllers/recommended_product_controller.dart';
@@ -23,6 +24,7 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          //header
           Positioned(
               top: Dimensions.height20 * 3,
               left: Dimensions.width20,
@@ -59,8 +61,9 @@ class CartPage extends StatelessWidget {
                   ),
                 ],
               )),
-          //Listview builder for cart viewing products
-          Positioned(
+          //Listview builder for cart viewing products body
+          GetBuilder<CartController>(builder: (_cartController){
+            return _cartController.getItems.length>0? Positioned(
               top: Dimensions.height20 * 5,
               left: Dimensions.width20,
               right: Dimensions.width20,
@@ -240,8 +243,10 @@ class CartPage extends StatelessWidget {
                             );
                           });
                     })),
-              ))
-        ],
+              )):NoDataPage(text: "Your cart page is empty!");
+       
+          })
+          ],
       ),
       bottomNavigationBar:
           GetBuilder<CartController>(builder: (cartController) {
@@ -260,7 +265,7 @@ class CartPage extends StatelessWidget {
                 topLeft: Radius.circular(Dimensions.radius20 * 2),
                 topRight: Radius.circular(Dimensions.radius20 * 2),
               )),
-          child: Row(
+          child: cartController.getItems.length>0?Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
@@ -314,7 +319,7 @@ class CartPage extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ):Container(),
         );
       }),
     );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fooddeliveryapp/controllers/cart_controller.dart';
 import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
@@ -78,7 +80,12 @@ class PopularFoodDetail extends StatelessWidget {
             },
             child: Stack(
               children: [
-                    AppIcon(icon: Icons.shopping_cart_outlined),
+                   GestureDetector(
+                    onTap: (){
+                      log("kkk");
+                      Get.toNamed(RouteHelper.getCartPage());
+                    },
+                    child: AppIcon(icon: Icons.shopping_cart_outlined)),
                     controller.totalItems>=1?
                       Positioned(
                         right: 0,top: 0,
