@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fooddeliveryapp/pages/cart/cart_page.dart';
 import 'package:fooddeliveryapp/pages/food/popular_food_detail.dart';
 import 'package:fooddeliveryapp/pages/food/recommended_food_detail.dart';
@@ -31,6 +33,7 @@ class RouteHelper{
 
    ),
    GetPage(name: recommendedFood, page: (){
+    log("kkkk");
     var pageId1=Get.parameters['pageId1'];
     var page1=Get.parameters['page1'];
     return RecommendedFoodDetail(pageId1:int.parse(pageId1!),page1:page1!);

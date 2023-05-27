@@ -13,7 +13,7 @@ import 'package:fooddeliveryapp/widgets/big_text.dart';
 import 'package:fooddeliveryapp/widgets/icon_and_text_widget.dart';
 import 'package:fooddeliveryapp/widgets/small_text.dart';
 import 'package:get/get.dart';
-
+import 'dart:developer';
 class FoodPageBody extends StatefulWidget {
   const FoodPageBody({super.key});
 
@@ -32,7 +32,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   pageController.addListener(() {
    setState(() {
      _currentPageValue= pageController.page!;
-    //  print("Current pagevalue"+_currentPageValue.toString());
+     print("Current pagevalue"+_currentPageValue.toString());
    });
   });
  }
@@ -109,10 +109,12 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       itemBuilder: (context, index) {
          return GestureDetector(
           onTap: (){
+            log("sss");
             Get.toNamed(RouteHelper.getRecommendedFood(index,"home"));
           },
            child: Container(
-            margin: EdgeInsets.only(left:Dimensions.width20 ,right:Dimensions.width20,bottom: Dimensions.height10),
+            margin: EdgeInsets.only(left:Dimensions.width20 ,
+            right:Dimensions.width20,bottom: Dimensions.height10),
             child: Row(
               children: [
                 //image section
@@ -129,7 +131,8 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                       // image:NetworkImage(
                       //   AppConstants.BASE_URL+"/uploads/"+recommendedProduct.recommededProductList[index].img!
                       // )
-                     image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOAD_URL+recommendedProduct.recommededProductList[index].img!)
+                     image: NetworkImage(AppConstants.BASE_URL+AppConstants.UPLOAD_URL+
+                     recommendedProduct.recommededProductList[index].img!)
                      )
                   ),
                 ),

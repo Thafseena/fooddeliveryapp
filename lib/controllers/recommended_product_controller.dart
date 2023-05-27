@@ -22,7 +22,7 @@ class RecommededProductController extends GetxController{
     _recommededProductList=[];
     _recommededProductList.addAll(Product.fromJson(response.body).products); 
     // _recommededProductList.addAll(Recommended.fromJson(response.body).recommendedproducts); 
-   // print("_recommededProductList"+response.body.toString());
+    print("_recommededProductList"+response.body.toString());
     _isLoaded=true;
     update();
    }else{

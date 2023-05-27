@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fooddeliveryapp/controllers/cart_controller.dart';
 import 'package:fooddeliveryapp/controllers/popular_product_controller.dart';
